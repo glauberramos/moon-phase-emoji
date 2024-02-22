@@ -70,11 +70,70 @@
       return { name: "New Moon", emoji: "🌑" };
     };
 
+    function constrain(d) {
+      let t = d % 360;
+      if (t < 0) {
+        t += 360;
+      }
+      return t;
+    }
+
+    function getIlluminatedFractionOfMoon(julianDate) {
+      const toRad = Math.PI / 180.0;
+      const T = (julianDate - 2451545) / 36525.0;
+
+      const D =
+        constrain(
+          297.8501921 +
+            445267.1114034 * T -
+            0.0018819 * T * T +
+            (1.0 / 545868.0) * T * T * T -
+            (1.0 / 113065000.0) * T * T * T * T
+        ) * toRad; //47.2
+      const M =
+        constrain(
+          357.5291092 +
+            35999.0502909 * T -
+            0.0001536 * T * T +
+            (1.0 / 24490000.0) * T * T * T
+        ) * toRad; //47.3
+      const Mp =
+        constrain(
+          134.9633964 +
+            477198.8675055 * T +
+            0.0087414 * T * T +
+            (1.0 / 69699.0) * T * T * T -
+            (1.0 / 14712000.0) * T * T * T * T
+        ) * toRad; //47.4
+
+      //48.4
+      const i =
+        constrain(
+          180 -
+            (D * 180) / Math.PI -
+            6.289 * Math.sin(Mp) +
+            2.1 * Math.sin(M) -
+            1.274 * Math.sin(2 * D - Mp) -
+            0.658 * Math.sin(2 * D) -
+            0.214 * Math.sin(2 * Mp) -
+            0.11 * Math.sin(D)
+        ) * toRad;
+
+      const k = (1 + Math.cos(i)) / 2;
+      return k;
+    }
+
     const date = new Date();
     const moonValue = getLunarPhase();
-
     const widget = document.getElementById("widget");
+
     widget.innerHTML = moonValue.emoji;
-    widget.setAttribute("title", moonValue.name);
+    widget.setAttribute(
+      "title",
+      moonValue.name +
+        " - " +
+        Math.floor(getIlluminatedFractionOfMoon(getJulianDate()) * 100) +
+        "%"
+    );
   </script>
 </html>
