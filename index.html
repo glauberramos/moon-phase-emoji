@@ -48,20 +48,25 @@
 
     const getLunarPhase = (date = new Date()) => {
       const age = getLunarAge(date);
-      if (age < 1.84566) return { name: "New Moon", emoji: "🌑" };
-      else if (age < 5.53699)
+
+      if (age < 1.84566) {
+        return { name: "New Moon", emoji: "🌑" };
+      } else if (age < 5.53699) {
         return { name: "Waxing Crescent Moon", emoji: "🌒" };
-      else if (age < 9.22831)
+      } else if (age < 9.22831) {
         return { name: "First Quarter Moon", emoji: "🌓" };
-      else if (age < 12.91963)
+      } else if (age < 12.91963) {
         return { name: "Waxing Gibbous Moon", emoji: "🌔" };
-      else if (age < 16.61096) return { name: "Full Moon", emoji: "🌕" };
-      else if (age < 20.30228)
+      } else if (age < 16.61096) {
+        return { name: "Full Moon", emoji: "🌕" };
+      } else if (age < 20.30228) {
         return { name: "Waning Gibbous Moon", emoji: "🌖" };
-      else if (age < 23.99361)
+      } else if (age < 23.99361) {
         return { name: "Last Quarter Moon", emoji: "🌗" };
-      else if (age < 27.68493)
+      } else if (age < 27.68493) {
         return { name: "Waning Crescent Moon", emoji: "🌘" };
+      }
+
       return { name: "New Moon", emoji: "🌑" };
     };
 
